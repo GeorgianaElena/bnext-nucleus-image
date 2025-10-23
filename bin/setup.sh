@@ -98,3 +98,6 @@ if [ -f ${HOME}/hub-setup/setup.sh ]; then
 fi
 
 echo Nucleus environment setup
+
+# Start user in their home directory
+cd ${HOME}

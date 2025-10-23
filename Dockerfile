@@ -22,29 +22,11 @@ RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 USER root
 
 ADD bin/setup-stub.sh /usr/local/bin/before-notebook.d/setup-stub.sh
-#ADD --chown=$NB_USER:users . /opt/repo/
+
 ADD --chown=$NB_USER:users bin /opt/repo/
-ADD --chown=$NB_USER:users config /opt/repo/
 ADD --chown=$NB_USER:users home-overlay /opt/repo/
 ADD --chown=$NB_USER:users nucleus-env /opt/repo/
 ADD --chown=$NB_USER:users share /opt/repo/
-
-Dockerfile
-Dockerfile.jupyterhub
-Dockerfile.notebook
-LICENSE
-README.md
-bin
-config
-docker-compose.dev.yml
-docker-compose.yml
-environment.yml
-home-overlay
-jupyterhub_config.py
-nucleus-env
-override.dev.yml
-share
-
 
 # Add directory and correct permissions for additional node installs
 RUN mkdir -p /opt/noderoots
