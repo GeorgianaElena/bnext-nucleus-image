@@ -23,10 +23,13 @@ USER root
 
 ADD bin/setup-stub.sh /usr/local/bin/before-notebook.d/setup-stub.sh
 
-ADD --chown=$NB_USER:users bin /opt/repo/
-ADD --chown=$NB_USER:users home-overlay /opt/repo/
-ADD --chown=$NB_USER:users nucleus-env /opt/repo/
-ADD --chown=$NB_USER:users share /opt/repo/
+ADD --chown=$NB_USER:users bin /opt/repo/bin
+ADD --chown=$NB_USER:users home-overlay /opt/repo/home-overlay
+ADD --chown=$NB_USER:users nucleus-env /opt/repo/nucleus-env
+ADD --chown=$NB_USER:users share /opt/repo/share
+ADD --chown=$NB_USER:users config /opt/repo/config
+
+RUN ls /opt/repo
 
 # Add directory and correct permissions for additional node installs
 RUN mkdir -p /opt/noderoots

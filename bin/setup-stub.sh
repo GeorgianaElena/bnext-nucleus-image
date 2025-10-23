@@ -17,3 +17,5 @@ git pull |& tee ${LOG_FILE}
 
 echo "Running main setup" | tee ${LOG_FILE}
 /bin/bash /opt/repo/bin/setup.sh |& tee ${LOG_FILE}
+
+cd ${HOME}
