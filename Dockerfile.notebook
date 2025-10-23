@@ -1,0 +1,41 @@
+FROM quay.io/jupyter/minimal-notebook:latest
+
+USER root
+
+RUN apt-get -y update && apt-get -y install gcc g++ rsync zsh neovim eza caddy jq
+
+USER $NB_USER
+
+# Curvenote
+RUN mamba install -y -c conda-forge 'nodejs>=24'
+RUN npm install -g curvenote
+RUN npm install -g nodemon
+#RUN mamba install -y -c conda-forge caddy
+
+# UV
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# ADD ./templates /home/jovyan/.jupyter/templates
+# ADD ./work-preload /home/jovyan/work-preload
+
+USER root
+
+ADD bin/setup-stub.sh /usr/local/bin/before-notebook.d/setup-stub.sh
+ADD --chown=$NB_USER:users . /opt/repo/
+
+# Add directory and correct permissions for additional node installs
+RUN mkdir -p /opt/noderoots
+RUN chown $NB_USER:users /opt/noderoots
+
+RUN chsh -s /bin/zsh jovyan
+
+USER $NB_USER
+
+RUN rsync -av /opt/repo/home-overlay/ /home/$NB_USER/
+RUN git clone --depth=1 https://github.com/mattmc3/antidote.git ~/.antidote
+RUN zsh -ci "source ~/.antidote/antidote.zsh && antidote load"
+
+RUN git clone --depth=1 https://github.com/antonrmolina/devnote-template.git /home/jovyan/work/devnotes/template
+
+ARG UV_INDEX=https://pypi.org/simple
+RUN ~/.local/bin/uv pip install --system -e /opt/repo/nucleus-env --index $UV_INDEX --default-index=https://pypi.org/simple
