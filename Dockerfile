@@ -14,18 +14,10 @@ RUN npm install -g nodemon
 
 # UV
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-
-USER root
-# Add directory and correct permissions for additional node installs
-RUN mkdir -p /opt/noderoots
-RUN chown $NB_USER:users /opt/noderoots
-
 RUN chsh -s /bin/zsh jovyan
 
-USER $NB_USER
-
 RUN git clone --depth=1 https://github.com/mattmc3/antidote.git /home/$NB_USER/.antidote
-RUN zsh -ci "source /home/${{ NB_USER }}/.antidote/antidote.zsh && antidote load"
+RUN zsh -ci "source /home/jovyan/.antidote/antidote.zsh && antidote load"
 
 ARG UV_INDEX=https://pypi.org/simple
 RUN ~/.local/bin/uv pip install --system -e /opt/repo/nucleus-env --index $UV_INDEX --default-index=https://pypi.org/simple
