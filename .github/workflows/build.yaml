@@ -28,13 +28,13 @@ jobs:
       with:
         # Make sure username & password/token pair matches your registry credentials
         DOCKER_USERNAME: ${{ secrets.QUAY_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+        DOCKER_PASSWORD: ${{ secrets.  }}
         DOCKER_REGISTRY: "quay.io"
         # Disable pushing a 'latest' tag, as this often just causes confusion
         LATEST_TAG_OFF: true
         #
         # Uncomment and modify the following line with your image name, otherwise no push will happen
-        IMAGE_NAME: "2i2c/bnext-nucleus-image"
+        IMAGE_NAME: "2i2c/testing-bnext-nucleus-image"
 
     # Lets us monitor disks getting full as images get bigger over time
     - name: Show how much disk space is left
