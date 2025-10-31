@@ -27,14 +27,14 @@ RUN ls /opt/repo
 
 # Add directory and correct permissions for additional node installs
 RUN mkdir -p /opt/noderoots
-RUN chown $NB_UID:users /opt/noderoots
+RUN chown $NB_UID:$NB_GID /opt/noderoots
 
 RUN chsh -s /bin/zsh jovyan
 
 USER $NB_UID
 
 RUN git clone --depth=1 https://github.com/mattmc3/antidote.git /home/$NB_UID/.antidote
-RUN zsh -ci "source /home/${{ NB_UID }}/.antidote/antidote.zsh && antidote load"
+RUN zsh -ci "source /home/${{ NB_USER }}/.antidote/antidote.zsh && antidote load"
 
 ARG UV_INDEX=https://pypi.org/simple
 RUN ~/.local/bin/uv pip install --system -e /opt/repo/nucleus-env --index $UV_INDEX --default-index=https://pypi.org/simple
