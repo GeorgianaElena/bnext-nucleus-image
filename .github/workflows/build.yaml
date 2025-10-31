@@ -22,6 +22,9 @@ jobs:
 
     - name: Checkout files in repo
       uses: actions/checkout@main
+    
+    - name: Echo one secret
+      run: echo ${{ secrets.QUAY_USERNAME }}
 
     - name: Build and push the image to quay.io
       uses: jupyterhub/repo2docker-action@master

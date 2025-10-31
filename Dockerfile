@@ -11,13 +11,9 @@ USER $NB_USER
 RUN mamba install -y -c conda-forge 'nodejs>=24'
 RUN npm install -g curvenote
 RUN npm install -g nodemon
-#RUN mamba install -y -c conda-forge caddy
 
 # UV
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# ADD ./templates /home/jovyan/.jupyter/templates
-# ADD ./work-preload /home/jovyan/work-preload
 
 USER root
 
