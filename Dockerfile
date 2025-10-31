@@ -15,8 +15,10 @@ RUN npm install -g nodemon
 # UV
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
+USER root
 # Add directory and correct permissions for additional node installs
 RUN mkdir -p /opt/noderoots
+RUN chown $NB_USER:users /opt/noderoots
 
 RUN chsh -s /bin/zsh jovyan
 
