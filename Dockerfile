@@ -5,7 +5,7 @@ USER root
 
 RUN apt-get -y update && apt-get -y install gcc g++ rsync zsh neovim eza caddy jq
 
-USER $NB_USER
+USER $NB_UID
 
 # Curvenote
 RUN mamba install -y -c conda-forge 'nodejs>=24'
@@ -17,29 +17,24 @@ RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
 USER root
 
-ADD bin/setup-stub.sh /usr/local/bin/before-notebook.d/setup-stub.sh
-
-ADD --chown=$NB_USER:users bin /opt/repo/bin
-ADD --chown=$NB_USER:users home-overlay /opt/repo/home-overlay
-ADD --chown=$NB_USER:users nucleus-env /opt/repo/nucleus-env
-ADD --chown=$NB_USER:users share /opt/repo/share
-ADD --chown=$NB_USER:users config /opt/repo/config
+ADD --chown=$NB_UID:$NB_GID bin /opt/repo/bin
+ADD --chown=$NB_UID:$NB_GID home-overlay /opt/repo/home-overlay
+ADD --chown=$NB_UID:$NB_GID nucleus-env /opt/repo/nucleus-env
+ADD --chown=$NB_UID:$NB_GID share /opt/repo/share
+ADD --chown=$NB_UID:$NB_GID config /opt/repo/config
 
 RUN ls /opt/repo
 
 # Add directory and correct permissions for additional node installs
 RUN mkdir -p /opt/noderoots
-RUN chown $NB_USER:users /opt/noderoots
+RUN chown $NB_UID:users /opt/noderoots
 
 RUN chsh -s /bin/zsh jovyan
 
-USER $NB_USER
+USER $NB_UID
 
-RUN rsync -av /opt/repo/home-overlay/ /home/$NB_USER/
-RUN git clone --depth=1 https://github.com/mattmc3/antidote.git ~/.antidote
-RUN zsh -ci "source ~/.antidote/antidote.zsh && antidote load"
-
-RUN git clone --depth=1 https://github.com/antonrmolina/devnote-template.git /home/jovyan/work/devnotes/template
+RUN git clone --depth=1 https://github.com/mattmc3/antidote.git /home/$NB_UID/.antidote
+RUN zsh -ci "source /home/${{ NB_UID }}/.antidote/antidote.zsh && antidote load"
 
 ARG UV_INDEX=https://pypi.org/simple
 RUN ~/.local/bin/uv pip install --system -e /opt/repo/nucleus-env --index $UV_INDEX --default-index=https://pypi.org/simple
