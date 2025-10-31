@@ -14,7 +14,7 @@ RUN npm install -g nodemon
 
 # UV
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-RUN chsh -s /bin/zsh jovyan
+# RUN chsh -s /bin/zsh jovyan
 
 RUN git clone --depth=1 https://github.com/mattmc3/antidote.git /home/$NB_USER/.antidote
 RUN zsh -ci "source /home/jovyan/.antidote/antidote.zsh && antidote load"
