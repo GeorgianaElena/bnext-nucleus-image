@@ -19,7 +19,6 @@ USER root
 RUN chsh -s /bin/zsh $NB_USER
 
 USER $NB_USER
-RUN zsh -ci "source /home/jovyan/.antidote/antidote.zsh && antidote load"
 
 ARG UV_INDEX=https://pypi.org/simple
 RUN ~/.local/bin/uv pip install --system -e /opt/repo/nucleus-env --index $UV_INDEX --default-index=https://pypi.org/simple

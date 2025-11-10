@@ -20,6 +20,9 @@ cd ${REPO}
 git remote set-url origin ${GIT_REMOTE} |& tee ${LOG_FILE} # Fix up remote if image was built from a repo with an SSH origin.
 git pull |& tee ${LOG_FILE}
 
+echo Running antidote setup |& tee ${LOG_FILE}
+zsh -ci "source /home/jovyan/.antidote/antidote.zsh && antidote load"
+
 echo "Running main setup" |& tee ${LOG_FILE}
 echo "Setting up environment" |& tee ${LOG_FILE}
 echo "Running as: `whoami`" |& tee ${LOG_FILE}
