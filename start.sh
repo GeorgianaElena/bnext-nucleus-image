@@ -8,9 +8,17 @@ GIT_REMOTE="https://github.com/bnext-bio/nucleus-jupyterhub.git"
 JUPYTER_SETTINGS=/opt/conda/share/jupyter/lab/settings
 DEVNOTE_PATH=/home/jovyan/work/devnotes/template
 
-
 echo "In setup-stub: logging to $LOG_FILE"
 mkdir -p `dirname $LOG_FILE`
+
+echo "Updating git repository: ${REPO}" | tee ${LOG_FILE}
+if [ ! -d ${REPO} ]; then
+    git clone --depth=1 ${GIT_REMOTE} ${REPO} |& tee ${LOG_FILE}
+fi
+
+cd ${REPO}
+git remote set-url origin ${GIT_REMOTE} |& tee ${LOG_FILE} # Fix up remote if image was built from a repo with an SSH origin.
+git pull |& tee ${LOG_FILE}
 
 echo "Running main setup" |& tee ${LOG_FILE}
 echo "Setting up environment" |& tee ${LOG_FILE}
